@@ -1,0 +1,160 @@
+name: Validate & Release
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Scan For Secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory:
+          - "."
+          - "examples/full"
+          - "test/create-resource"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Lint Example
+        uses: "./.github/actions/tflint"
+        with:
+          directory: ${{ matrix.directory }}
+
+  update-docs:
+    name: Update Docs
+    needs:
+      - validate
+      - lint
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.terraform-docs.outputs.num_changed > 0 }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: ${{ github.event_name == 'push' }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        id: terraform-docs
+        uses: terraform-docs/gh-actions@v1.0.0
+        with:
+          output-file: README.md
+          output-method: inject
+          git-push: ${{ github.event_name == 'pull_request' }}
+          git-commit-message: "docs(terraform): update README.md"
+      - name: Cache Docs
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/cache@v3
+        with:
+          path: README.md
+          key: ${{ runner.os }}-docs-${{ github.sha }}
+
+  test:
+    name: Test
+    needs:
+      - validate
+      - lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      #- name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
+      #  uses: azure/login@v1
+      #  with:
+      #    client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      #    tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #    subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # - name: Get Branch Name
+      #   id: branch-name
+      #   uses: tj-actions/branch-names@v7
+      # - name: Apply Example
+      #   uses: "./.github/actions/terraform"
+      #   with:
+      #     backend_resource_group: ${{ vars.BACKEND_RESOURCE_GROUP }}
+      #     backend_storage_account: ${{ vars.BACKEND_STORAGE_ACCOUNT }}
+      #     backend_container_name: ${{ vars.BACKEND_CONTAINER_NAME }}
+      #     backend_key: "terraform-azuread-github-oidc/examples/full/terraform.tfstate"
+      #     directory: "examples/full"
+      #     plan: true
+      #     apply: true
+      #     destroy: false
+      #   env:
+      #     TF_github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     TF_azure_application_name: "terraform-azuread-github-oidc-test"
+      #     TF_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+      - name: Apply And Destroy Test
+        uses: "./.github/actions/terraform"
+        with:
+          init-args: >-
+            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
+            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
+            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
+            -backend-config='key=terraform-azuread-github-oidc/test/create-resource/terraform.tfstate'
+          directory: "test/create-resource"
+          apply: true
+          destroy: true
+        env:
+          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # - name: Destroy Example
+      #   uses: "./.github/actions/terraform"
+      #   with:
+      #     backend_resource_group: ${{ vars.BACKEND_RESOURCE_GROUP }}
+      #     backend_storage_account: ${{ vars.BACKEND_STORAGE_ACCOUNT }}
+      #     backend_container_name: ${{ vars.BACKEND_CONTAINER_NAME }}
+      #     backend_key: "terraform-azuread-github-oidc/examples/full/terraform.tfstate"
+      #     directory: "examples/full"
+      #     plan: false
+      #     apply: false
+      #     destroy: true
+      #   env:
+      #     TF_github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     TF_azure_application_name: "terraform-azuread-github-oidc-test"
+      #     TF_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+
+  release:
+    name: Release
+    needs:
+      - update-docs
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Restore Cached Docs
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/cache@v3
+        with:
+          path: README.md
+          key: ${{ runner.os }}-docs-${{ github.sha }}
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: ${{ github.event_name == 'pull_request' }}
+          ci: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
