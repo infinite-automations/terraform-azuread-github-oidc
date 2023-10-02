@@ -1,0 +1,37 @@
+# .terraform-docs.yml
+sections:
+  show:
+    - header
+    - requirements
+    - providers
+    - resources
+    - inputs
+    - outputs
+    - footer
+
+content: |-
+  {{ .Header }}
+
+  ## Module Usage
+
+  ```hcl
+  {{ include "examples/full/main.tf" }}
+  ```
+
+  ## Github Workflow Example
+
+  ```hcl
+  {{ include "examples/github/example.yml" }}
+  ```
+
+  {{ .Requirements }}
+
+  {{ .Providers }}
+
+  {{ .Resources }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
+
+  {{ .Footer }}

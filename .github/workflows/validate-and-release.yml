@@ -1,0 +1,175 @@
+# This YAML file defines a GitHub Actions workflow that validates, lints, tests, and releases a Terraform module for Azure AD GitHub OIDC.
+# The workflow is triggered on push and pull request events on the main branch.
+# It has four jobs: validate, lint, test, and release.
+# The validate job scans for secrets using gitleaks.
+# The lint job lints the Terraform code using tflint.
+# The test job applies and destroys the Terraform code in the examples/full and test/create-resource directories.
+# The release job updates the README.md file with the Terraform documentation and runs after the test job is successful.
+# The workflow requires permissions to write contents and id-token.
+
+name: Validate, Test & Release
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scan For Secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory:
+          - "."
+          - "examples/full"
+          - "test/create-resource"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Lint Example
+        uses: "./.github/actions/tflint"
+        with:
+          directory: ${{ matrix.directory }}
+
+  update-docs:
+    name: Update Docs
+    needs:
+      - validate
+      - lint
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.terraform-docs.outputs.num_changed > 0 }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: ${{ github.event_name == 'push' }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        id: terraform-docs
+        uses: terraform-docs/gh-actions@v1.0.0
+        with:
+          output-file: README.md
+          output-method: inject
+          git-push: ${{ github.event_name == 'pull_request' }}
+          git-commit-message: "docs(terraform): update README.md"
+      - name: Cache Docs
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/cache@v3
+        with:
+          path: README.md
+          key: ${{ runner.os }}-docs-${{ github.sha }}
+
+  test:
+    name: Test
+    needs:
+      - validate
+      - lint
+    runs-on: ubuntu-latest
+    env:
+      ARM_USE_OIDC: true
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get Branch Name
+        id: branch-name
+        uses: tj-actions/branch-names@v7
+      - name: Create Azure Application For OIDC
+        uses: "./.github/actions/terraform"
+        id: apply-example
+        with:
+          init-args: >-
+            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
+            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
+            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
+            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.branch-name.outputs.current_branch }}.tfstate'
+          directory: "examples/full"
+          apply: true
+          destroy: false
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.branch-name.outputs.current_branch }}-test"
+          TF_VAR_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+          TF_VAR_github_pull_request: "true"
+      - name: Get Client ID
+        id: client-id
+        run: |
+          echo client-id="$(echo ${{ steps.apply-example.outputs.output-json }} | jq -r '.client_id.value')" >> "$GITHUB_OUTPUT"
+      - name: Test Azure Application For OIDC
+        uses: "./.github/actions/terraform"
+        with:
+          init-args: >-
+            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
+            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
+            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
+            -backend-config='key=terraform-azuread-github-oidc/test/create-resource/${{ steps.branch-name.outputs.current_branch }}.tfstate'
+          directory: "test/create-resource"
+          apply: true
+          destroy: true
+        env:
+          ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
+          TF_VAR_resource_group_name: "rg-${{ steps.branch-name.outputs.current_branch }}-test"
+      - name: Destroy Azure Application For OIDC
+        uses: "./.github/actions/terraform"
+        with:
+          init-args: >-
+            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
+            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
+            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
+            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.branch-name.outputs.current_branch }}.tfstate'
+          directory: "examples/full"
+          format: false
+          validate: false
+          apply: false
+          destroy: true
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.branch-name.outputs.current_branch }}-test"
+          TF_VAR_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+
+  release:
+    name: Release
+    needs:
+      - update-docs
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Restore Cached Docs
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/cache@v3
+        with:
+          path: README.md
+          key: ${{ runner.os }}-docs-${{ github.sha }}
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: ${{ github.event_name == 'pull_request' }}
+          ci: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
