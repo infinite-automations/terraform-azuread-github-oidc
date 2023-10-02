@@ -3,6 +3,73 @@
 Terraform module to create an Azure AD application, service principal, and federated identities OIDC authentication with GitHub.
 
 <!-- BEGIN_TF_DOCS -->
+
+
+## Module Usage
+
+```hcl
+terraform {
+  required_version = "~>1.0"
+  required_providers {
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "2.43.0"
+    }
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "3.75.0"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "5.39.0"
+    }
+  }
+}
+
+provider "azuread" {
+}
+
+provider "azurerm" {
+  features {}
+}
+
+provider "github" {
+  owner = local.github_repository_owner
+  token = var.github_repository_PAT
+}
+
+variable "github_repository_PAT" {
+  description = "GitHub personal access token"
+  type        = string
+  default     = null
+}
+
+locals {
+  github_repository_owner = "m4s-b3n"
+  github_repository_name  = "playground"
+}
+
+module "github-oidc" {
+  source = "../.."
+
+  azure_application_name         = "github-oidc-test"
+  azure_principal_roles          = ["Contributor"]
+  github_repository_owner        = local.github_repository_owner
+  github_repository_name         = local.github_repository_name
+  github_repository_branches     = ["main"]
+  github_repository_tags         = ["0.0.1"]
+  github_repository_environments = ["dev", "test", "prod"]
+  github_repository_pull_request = true
+}
+
+resource "github_actions_secret" "client-id" {
+  count           = (var.github_repository_PAT == null) ? 0 : 1
+  repository      = local.github_repository_name
+  secret_name     = "ARM_CLIENT_ID"
+  plaintext_value = module.github-oidc.client_id
+}
+```
+
 ## Requirements
 
 | Name | Version |
@@ -18,10 +85,6 @@ Terraform module to create an Azure AD application, service principal, and feder
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.43.0 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.75.0 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -33,9 +96,6 @@ No modules.
 | [azuread_application_federated_identity_credential.tag](https://registry.terraform.io/providers/hashicorp/azuread/2.43.0/docs/resources/application_federated_identity_credential) | resource |
 | [azuread_service_principal.this](https://registry.terraform.io/providers/hashicorp/azuread/2.43.0/docs/resources/service_principal) | resource |
 | [azurerm_role_assignment.sub-contributor](https://registry.terraform.io/providers/hashicorp/azurerm/3.75.0/docs/resources/role_assignment) | resource |
-| [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.43.0/docs/data-sources/client_config) | data source |
-| [azuread_user.this](https://registry.terraform.io/providers/hashicorp/azuread/2.43.0/docs/data-sources/user) | data source |
-| [azurerm_subscription.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.75.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
 
@@ -57,4 +117,6 @@ No modules.
 | <a name="output_application"></a> [application](#output\_application) | AzureAD application created |
 | <a name="output_client_id"></a> [client\_id](#output\_client\_id) | AzureAD client ID |
 | <a name="output_principal"></a> [principal](#output\_principal) | AzureAD principal created |
+
+
 <!-- END_TF_DOCS -->
