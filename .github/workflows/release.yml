@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        if: ${{ github.event_name == 'push' }}
+      - uses: actions/checkout@v4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v3        
         with:
@@ -34,9 +39,8 @@ jobs:
           output-file: README.md
           output-method: inject
           git-push: "true"
-          git-commit-message: "docs(terraform): update README.md"
+          git-commit-message: "docs(terraform): update README.md [skip ci]"
       - name: Semantic Release
-        if: ${{ steps.terraform-docs.outputs.num_changed == 0 }}
         uses: cycjimmy/semantic-release-action@v4
         with:
           dry_run: ${{ github.event_name != 'push' }}
