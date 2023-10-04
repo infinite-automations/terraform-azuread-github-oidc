@@ -7,10 +7,6 @@ data "azurerm_subscription" "this" {
 
 data "azuread_client_config" "current" {}
 
-data "azuread_user" "this" {
-  object_id = data.azuread_client_config.current.object_id
-}
-
 resource "azuread_application" "this" {
   display_name = var.azure_application_name
   web {
@@ -18,7 +14,7 @@ resource "azuread_application" "this" {
       access_token_issuance_enabled = true
     }
   }
-  owners = [data.azuread_client_config.current.object_id, data.azuread_user.this.object_id]
+  owners = [data.azuread_client_config.current.object_id]
 }
 
 resource "azuread_service_principal" "this" {

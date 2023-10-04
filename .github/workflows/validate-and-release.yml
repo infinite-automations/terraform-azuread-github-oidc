@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Scan For Secrets
         uses: gitleaks/gitleaks-action@v2
         env:
@@ -77,33 +79,37 @@ jobs:
       - validate
       - lint
     runs-on: ubuntu-latest
+    env:
+      ARM_USE_OIDC: true
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      #- name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
-      #  uses: azure/login@v1
-      #  with:
-      #    client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      #    tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      #    subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      # - name: Get Branch Name
-      #   id: branch-name
-      #   uses: tj-actions/branch-names@v7
-      # - name: Apply Example
-      #   uses: "./.github/actions/terraform"
-      #   with:
-      #     backend_resource_group: ${{ vars.BACKEND_RESOURCE_GROUP }}
-      #     backend_storage_account: ${{ vars.BACKEND_STORAGE_ACCOUNT }}
-      #     backend_container_name: ${{ vars.BACKEND_CONTAINER_NAME }}
-      #     backend_key: "terraform-azuread-github-oidc/examples/full/terraform.tfstate"
-      #     directory: "examples/full"
-      #     plan: true
-      #     apply: true
-      #     destroy: false
-      #   env:
-      #     TF_github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     TF_azure_application_name: "terraform-azuread-github-oidc-test"
-      #     TF_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+      - name: Get Branch Name
+        id: branch-name
+        uses: tj-actions/branch-names@v7
+      - name: Apply Example
+        uses: "./.github/actions/terraform"
+        id: apply-example
+        with:
+          init-args: >-
+            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
+            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
+            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
+            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.branch-name.outputs.current_branch }}.tfstate'
+          directory: "examples/full"
+          apply: true
+          destroy: false
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.branch-name.outputs.current_branch }}-test"
+          TF_VAR_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+          TF_VAR_github_pull_request: "true"
+      - name: Get Client ID
+        id: client-id
+        run: |
+          echo client-id="$(echo ${{ steps.apply-example.outputs.output-json }} | jq -r '.client_id.value')" >> "$GITHUB_OUTPUT"
       - name: Apply And Destroy Test
         uses: "./.github/actions/terraform"
         with:
@@ -111,30 +117,31 @@ jobs:
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
             -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
             -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
-            -backend-config='key=terraform-azuread-github-oidc/test/create-resource/terraform.tfstate'
+            -backend-config='key=terraform-azuread-github-oidc/test/create-resource/${{ steps.branch-name.outputs.current_branch }}.tfstate'
           directory: "test/create-resource"
           apply: true
           destroy: true
         env:
-          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
+          TF_VAR_resource_group_name: "rg-${{ steps.branch-name.outputs.current_branch }}-test"
+      - name: Destroy Example
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: "./.github/actions/terraform"
+        with:
+          init-args: >-
+            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
+            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
+            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
+            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.branch-name.outputs.current_branch }}.tfstate'
+          directory: "examples/full"
+          format: false
+          validate: false
+          apply: false
+          destroy: true
+        env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      # - name: Destroy Example
-      #   uses: "./.github/actions/terraform"
-      #   with:
-      #     backend_resource_group: ${{ vars.BACKEND_RESOURCE_GROUP }}
-      #     backend_storage_account: ${{ vars.BACKEND_STORAGE_ACCOUNT }}
-      #     backend_container_name: ${{ vars.BACKEND_CONTAINER_NAME }}
-      #     backend_key: "terraform-azuread-github-oidc/examples/full/terraform.tfstate"
-      #     directory: "examples/full"
-      #     plan: false
-      #     apply: false
-      #     destroy: true
-      #   env:
-      #     TF_github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     TF_azure_application_name: "terraform-azuread-github-oidc-test"
-      #     TF_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.branch-name.outputs.current_branch }}-test"
+          TF_VAR_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
 
   release:
     name: Release

@@ -14,7 +14,7 @@ inputs:
   validate-args:
     description: "The arguments to pass to terraform validate"
     required: false
-    default: "-no-color"
+    default: ""
   fmt-args:
     description: "The arguments to pass to terraform fmt"
     required: false
@@ -22,7 +22,7 @@ inputs:
   plan-args:
     description: "The arguments to pass to terraform plan"
     required: false
-    default: "-no-color"
+    default: "-no-color -out=plan.json"
   apply-args:
     description: "The arguments to pass to terraform apply"
     required: false
@@ -35,6 +35,10 @@ inputs:
     description: "The directory where the Terraform configuration files are located"
     required: false
     default: "."
+  format:
+    description: "Whether to format"
+    required: false
+    default: "true"
   validate:
     description: "Whether to validate"
     required: false
@@ -51,6 +55,10 @@ inputs:
     description: "Whether to destroy"
     required: false
     default: "false"
+outputs:
+  output-json:
+    description: "JSON formatted terraform output"
+    value: ${{ steps.apply.outputs.output-json }}
 
 runs:
   using: "composite"
@@ -59,30 +67,36 @@ runs:
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: ${{ inputs.terraform-version }}
+        terraform_wrapper: false
     - name: Terraform fmt
+      if: ${{ inputs.format == 'true' }}
       run: terraform fmt ${{ inputs.fmt-args }}
       working-directory: ${{ inputs.directory }}
       shell: bash
     - name: Terraform Init
-      run: terraform init ${{ inputs.init-args }}}
+      run: terraform init ${{ inputs.init-args }}
       working-directory: ${{ inputs.directory }}
       shell: bash
     - name: Terraform Validate
-      if: ${{ inputs.validate == true }}
-      run: terraform validate ${{ inputs.validate-args }}}
+      if: ${{ inputs.validate == 'true' }}
+      run: terraform validate ${{ inputs.validate-args }}
       working-directory: ${{ inputs.directory }}
       shell: bash
     - name: Terraform Plan
-      if: ${{ inputs.plan == true }}
+      if: ${{ inputs.plan == 'true' }}
       run: terraform plan ${{ inputs.plan-args }}
       working-directory: ${{ inputs.directory }}
       shell: bash
     - name: Terraform Apply
-      if: ${{ inputs.apply == true }}
-      run: terraform apply -auto-approve ${{ inputs.apply-args }}
+      if: ${{ inputs.apply == 'true' }}
+      id: apply
+      run: |
+        terraform apply -auto-approve ${{ inputs.apply-args }}
+        echo output-json="'$(terraform output -json | jq -c)'" >> "$GITHUB_OUTPUT"
       working-directory: ${{ inputs.directory }}
       shell: bash
     - name: Terraform Destroy
-      if: ${{ inputs.destroy == true }}
+      if: ${{ inputs.destroy == 'true' }}
       run: terraform destroy -auto-approve ${{ inputs.destroy-args }}
+      working-directory: ${{ inputs.directory }}
       shell: bash

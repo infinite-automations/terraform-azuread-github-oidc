@@ -57,6 +57,12 @@ variable "github_environments" {
   default     = ["dev", "test", "prod"]
 }
 
+variable "github_pull_request" {
+  description = "Enable GitHub OIDC for pull requests"
+  type        = bool
+  default     = true
+}
+
 locals {
   github_repository_owner = "m4s-b3n"
   github_repository_name  = "terraform-azuread-github-oidc"
@@ -78,7 +84,7 @@ module "github-oidc" {
   github_repository_branches     = var.github_branches
   github_repository_tags         = var.github_tags
   github_repository_environments = var.github_environments
-  github_repository_pull_request = true
+  github_repository_pull_request = var.github_pull_request
 }
 
 resource "github_actions_secret" "client-id" {
@@ -86,4 +92,9 @@ resource "github_actions_secret" "client-id" {
   repository      = local.github_repository_name
   secret_name     = "AZURE_CLIENT_ID"
   plaintext_value = module.github-oidc.client_id
+}
+
+output "client_id" {
+  value       = module.github-oidc.client_id
+  description = "AzureAD client ID"
 }
