@@ -69,6 +69,12 @@ variable "github_environments" {
   default     = ["dev", "test", "prod"]
 }
 
+variable "github_pull_request" {
+  description = "Enable GitHub OIDC for pull requests"
+  type        = bool
+  default     = true
+}
+
 locals {
   github_repository_owner = "m4s-b3n"
   github_repository_name  = "terraform-azuread-github-oidc"
@@ -90,7 +96,7 @@ module "github-oidc" {
   github_repository_branches     = var.github_branches
   github_repository_tags         = var.github_tags
   github_repository_environments = var.github_environments
-  github_repository_pull_request = true
+  github_repository_pull_request = var.github_pull_request
 }
 
 resource "github_actions_secret" "client-id" {
@@ -99,6 +105,58 @@ resource "github_actions_secret" "client-id" {
   secret_name     = "AZURE_CLIENT_ID"
   plaintext_value = module.github-oidc.client_id
 }
+
+output "client_id" {
+  value       = module.github-oidc.client_id
+  description = "AzureAD client ID"
+}
+```
+
+## Github Workflow Example
+
+```hcl
+name: Deploy using OIDC
+
+# choose any triggers
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+# permissions required
+# oidc requires to cretate id-tokens
+permissions:
+  contents: read
+  id-token: write
+
+# environment variables to set
+# can also be set on job level
+env:
+  ARM_USE_OIDC: true
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+# sample
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Terraform fmt
+        run: terraform fmt -check -no-color
+      - name: Terraform Init
+        run: terraform init -no-color
+      - name: Terraform Validate
+        run: terraform validate -no-color
+      - name: Terraform Plan
+        run: terraform plan -no-color
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -no-color
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve -no-color
 ```
 
 ## Requirements
