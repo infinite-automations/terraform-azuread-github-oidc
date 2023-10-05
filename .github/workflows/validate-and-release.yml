@@ -7,7 +7,7 @@
 # The release job updates the README.md file with the Terraform documentation and runs after the test job is successful.
 # The workflow requires permissions to write contents and id-token.
 
-name: Validate, Test & Release
+name: Test & Release
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Lint Example
-        uses: "./.github/actions/tflint"
+        uses: "m4s-b3n/tflint-all-in-one@v1.0.0"
         with:
           directory: ${{ matrix.directory }}
 
@@ -99,7 +99,7 @@ jobs:
         id: branch-name
         uses: tj-actions/branch-names@v7
       - name: Create Azure Application For OIDC
-        uses: "./.github/actions/terraform"
+        uses: "m4s-b3n/terraform-all-in-one@v1.0.0"
         id: apply-example
         with:
           init-args: >-
@@ -120,7 +120,7 @@ jobs:
         run: |
           echo client-id="$(echo ${{ steps.apply-example.outputs.output-json }} | jq -r '.client_id.value')" >> "$GITHUB_OUTPUT"
       - name: Test Azure Application For OIDC
-        uses: "./.github/actions/terraform"
+        uses: "m4s-b3n/terraform-all-in-one@v1.0.0"
         with:
           init-args: >-
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
@@ -134,7 +134,7 @@ jobs:
           ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
           TF_VAR_resource_group_name: "rg-${{ steps.branch-name.outputs.current_branch }}-test"
       - name: Destroy Azure Application For OIDC
-        uses: "./.github/actions/terraform"
+        uses: "m4s-b3n/terraform-all-in-one@v1.0.0"
         with:
           init-args: >-
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'

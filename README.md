@@ -2,7 +2,7 @@
 
 ![Semantic Release](https://github.com/m4s-b3n/terraform-azuread-github-oidc/actions/workflows/validate-and-release.yml/badge.svg)
 
-Terraform module to setup GitHub OIDC in Microsoft Azure, creating an Azure AD application, service principal, and federated identities.
+Terraform module to setup GitHub OIDC in Microsoft Azure, creating  an Azure AD application, service principal, and federated identities.
 
 <!-- BEGIN_TF_DOCS -->
 
