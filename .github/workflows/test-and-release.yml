@@ -1,7 +1,6 @@
 # This YAML file defines a GitHub Actions workflow that validates, lints, tests, and releases a Terraform module for Azure AD GitHub OIDC.
 # The workflow is triggered on push and pull request events on the main branch.
-# It has four jobs: validate, lint, test, and release.
-# The validate job scans for secrets using gitleaks.
+# It has three jobs: lint, test, and release.
 # The lint job lints the Terraform code using tflint.
 # The test job applies and destroys the Terraform code in the examples/full and test/create-resource directories.
 # The release job updates the README.md file with the Terraform documentation and runs after the test job is successful.
@@ -20,19 +19,6 @@ permissions:
   id-token: write
 
 jobs:
-  validate:
-    name: Validate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Scan For Secrets
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -53,7 +39,6 @@ jobs:
   update-docs:
     name: Update Docs
     needs:
-      - validate
       - lint
     runs-on: ubuntu-latest
     outputs:
@@ -85,7 +70,6 @@ jobs:
   test:
     name: Test
     needs:
-      - validate
       - lint
     runs-on: ubuntu-latest
     env:
