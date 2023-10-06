@@ -83,7 +83,7 @@ jobs:
         id: branch-name
         uses: tj-actions/branch-names@v7
       - name: Create Azure Application For OIDC
-        uses: "m4s-b3n/terraform-all-in-one@v1.0.0"
+        uses: "m4s-b3n/terraform-all-in-one@v1.1.0"
         id: apply-example
         with:
           init-args: >-
@@ -104,7 +104,7 @@ jobs:
         run: |
           echo client-id="$(echo ${{ steps.apply-example.outputs.output-json }} | jq -r '.client_id.value')" >> "$GITHUB_OUTPUT"
       - name: Test Azure Application For OIDC
-        uses: "m4s-b3n/terraform-all-in-one@v1.0.0"
+        uses: "m4s-b3n/terraform-all-in-one@v1.1.0"
         with:
           init-args: >-
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
@@ -118,7 +118,7 @@ jobs:
           ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
           TF_VAR_resource_group_name: "rg-${{ steps.branch-name.outputs.current_branch }}-test"
       - name: Destroy Azure Application For OIDC
-        uses: "m4s-b3n/terraform-all-in-one@v1.0.0"
+        uses: "m4s-b3n/terraform-all-in-one@v1.1.0"
         with:
           init-args: >-
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
