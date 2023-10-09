@@ -48,13 +48,13 @@ variable "github_branches" {
 variable "github_tags" {
   description = "Tags to enable GitHub OIDC for"
   type        = set(string)
-  default     = ["1.0.0"]
+  default     = []
 }
 
 variable "github_environments" {
   description = "Environments to enable GitHub OIDC for"
   type        = set(string)
-  default     = ["dev", "test", "prod"]
+  default     = []
 }
 
 variable "github_pull_request" {
