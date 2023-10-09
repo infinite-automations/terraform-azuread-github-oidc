@@ -100,6 +100,8 @@ jobs:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
           TF_VAR_github_branches: '["main"]'
+          TF_VAR_github_environments: '["main", "pr"]'
+          TF_VAR_github_tags: '["1.0.0", "1.0.1"]'
           TF_VAR_github_pull_request: "true"
       - name: Get Client ID
         id: client-id
@@ -136,6 +138,8 @@ jobs:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
           TF_VAR_github_branches: '["main"]'
+          TF_VAR_github_environments: '["main", "pr"]'
+          TF_VAR_github_tags: '["1.0.0", "1.0.1"]'
           TF_VAR_github_pull_request: "true"
 
   release:
