@@ -72,6 +72,8 @@ jobs:
     needs:
       - lint
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event_name == 'pull_request' && 'pr' || 'main' }}
     env:
       ARM_USE_OIDC: true
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -79,9 +81,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get Branch Name
-        id: branch-name
-        uses: tj-actions/branch-names@v7
+      - name: Get Branch Slug
+        uses: gacts/github-slug@v1
+        id: slug
       - name: Create Azure Application For OIDC
         uses: "m4s-b3n/terraform-all-in-one@v1.1.0"
         id: apply-example
@@ -90,14 +92,14 @@ jobs:
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
             -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
             -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
-            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.branch-name.outputs.current_branch }}.tfstate'
+            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.slug.outputs.branch-name-slug }}.tfstate'
           directory: "examples/full"
           apply: true
           destroy: false
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.branch-name.outputs.current_branch }}-test"
-          TF_VAR_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
+          TF_VAR_github_branches: '["main"]'
           TF_VAR_github_pull_request: "true"
       - name: Get Client ID
         id: client-id
@@ -110,13 +112,13 @@ jobs:
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
             -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
             -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
-            -backend-config='key=terraform-azuread-github-oidc/test/create-resource/${{ steps.branch-name.outputs.current_branch }}.tfstate'
+            -backend-config='key=terraform-azuread-github-oidc/test/create-resource/${{ steps.slug.outputs.branch-name-slug }}.tfstate'
           directory: "test/create-resource"
           apply: true
           destroy: true
         env:
           ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
-          TF_VAR_resource_group_name: "rg-${{ steps.branch-name.outputs.current_branch }}-test"
+          TF_VAR_resource_group_name: "rg-${{ steps.slug.outputs.branch-name-slug }}-test"
       - name: Destroy Azure Application For OIDC
         uses: "m4s-b3n/terraform-all-in-one@v1.1.0"
         with:
@@ -124,7 +126,7 @@ jobs:
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
             -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
             -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
-            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.branch-name.outputs.current_branch }}.tfstate'
+            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.slug.outputs.branch-name-slug }}.tfstate'
           directory: "examples/full"
           format: false
           validate: false
@@ -132,8 +134,9 @@ jobs:
           destroy: true
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.branch-name.outputs.current_branch }}-test"
-          TF_VAR_github_branches: '["${{ steps.branch-name.outputs.current_branch }}"]'
+          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
+          TF_VAR_github_branches: '["main"]'
+          TF_VAR_github_pull_request: "true"
 
   release:
     name: Release
