@@ -14,18 +14,10 @@ sections:
 content: |-
   {{ .Header }}
 
-  ## Module Usage
+  ## main.tf
 
   ```hcl
-  {{ include "examples/full/main.tf" }}
-  ```
-
-  For a detailed documentation see the [full example](examples/full/README.md)
-
-  ## Github Workflow Example
-
-  ```hcl
-  {{ include "examples/github/example.yml" }}
+  {{ include "main.tf" }}
   ```
 
   {{ .Requirements }}

@@ -1,3 +1,17 @@
+# Full Setup
+
+Create an application that has federated identities for the `main` branch and corresponding pull request. Moreover the environments `main` and `pr` will be supported as well as the tags `1.0.0` and `1.0.1`
+
+The name of the Azure AD application can be changed by setting the variable `azure_application_name`.
+
+By providing a sensitive variable `github_token` with a PAT for the given repository the client ID of the client created application will be written into a GitHub secret.
+
+<!-- BEGIN_TF_DOCS -->
+
+
+## main.tf
+
+```hcl
 terraform {
 
   required_version = "~>1.0"
@@ -72,3 +86,40 @@ output "client_id" {
   value       = module.github-oidc.client_id
   description = "AzureAD client ID"
 }
+```
+
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.75.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | 5.39.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_github"></a> [github](#provider\_github) | 5.39.0 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [github_actions_secret.client-id](https://registry.terraform.io/providers/integrations/github/5.39.0/docs/resources/actions_secret) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_azure_application_name"></a> [azure\_application\_name](#input\_azure\_application\_name) | Name of the Azure AD application | `string` | `"github-oidc-test"` | no |
+| <a name="input_github_token"></a> [github\_token](#input\_github\_token) | GitHub token for writing the secret | `string` | `null` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_client_id"></a> [client\_id](#output\_client\_id) | AzureAD client ID |
+
+
+<!-- END_TF_DOCS -->
