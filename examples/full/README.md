@@ -23,7 +23,7 @@ terraform {
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.75.0"
+      version = ">= 3.76.0"
     }
   }
 
@@ -93,7 +93,7 @@ output "client_id" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.75.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.76.0 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | 5.39.0 |
 
 ## Providers
