@@ -19,3 +19,17 @@ updates:
       interval: "weekly"
     reviewers:
       - m4s-b3n
+  - package-ecosystem: "terraform"
+    directory: "examples/full"
+    schedule:
+      # Check for updates to terraform every week
+      interval: "weekly"
+    reviewers:
+      - m4s-b3n
+  - package-ecosystem: "terraform"
+    directory: "test/create-resource"
+    schedule:
+      # Check for updates to terraform every week
+      interval: "weekly"
+    reviewers:
+      - m4s-b3n
