@@ -19,7 +19,7 @@ terraform {
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "5.39.0"
+      version = "5.40.0"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -94,19 +94,19 @@ output "client_id" {
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.76.0 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | 5.39.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | 5.39.0 |
+| <a name="provider_github"></a> [github](#provider\_github) | 5.40.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [github_actions_secret.client-id](https://registry.terraform.io/providers/integrations/github/5.39.0/docs/resources/actions_secret) | resource |
+| [github_actions_secret.client-id](https://registry.terraform.io/providers/integrations/github/5.40.0/docs/resources/actions_secret) | resource |
 
 ## Inputs
 
