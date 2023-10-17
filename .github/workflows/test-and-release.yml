@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.ref }}-test
-      cancel-in-progress: false
+      cancel-in-progress: true
     environment:
       name: ${{ github.event_name == 'pull_request' && 'pr' || 'main' }}
     env:
