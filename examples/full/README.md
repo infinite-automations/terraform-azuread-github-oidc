@@ -53,7 +53,7 @@ variable "github_token" {
 }
 
 locals {
-  github_repository_owner = "m4s-b3n"
+  github_repository_owner = "infinite-automations"
   github_repository_name  = "terraform-azuread-github-oidc"
 
   github_branches     = ["main"]
