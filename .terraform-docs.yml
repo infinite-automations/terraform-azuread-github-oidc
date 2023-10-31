@@ -50,3 +50,4 @@ settings:
   required: true
   type: true
   hide-empty: true
+  indent: 2

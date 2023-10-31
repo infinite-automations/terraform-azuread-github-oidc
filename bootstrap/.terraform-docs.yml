@@ -14,7 +14,7 @@ sections:
 content: |-
   {{ .Header }}
 
-  ## main.tf
+  ### main.tf
 
   ```hcl
   {{ include "main.tf" }}
@@ -42,4 +42,4 @@ settings:
   required: true
   type: true
   hide-empty: true
-  indent: 2
+  indent: 3
