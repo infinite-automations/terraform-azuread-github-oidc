@@ -57,7 +57,7 @@ module "github-oidc" {
 }
 ```
 
-### Requirements
+## Requirements
 
 | Name | Version |
 |------|---------|
@@ -67,7 +67,7 @@ module "github-oidc" {
 
 
 
-### Inputs
+## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
