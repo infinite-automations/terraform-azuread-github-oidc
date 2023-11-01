@@ -14,12 +14,6 @@ sections:
 content: |-
   {{ .Header }}
 
-  ## main.tf
-
-  ```hcl
-  {{ include "main.tf" }}
-  ```
-
   {{ .Requirements }}
 
   {{ .Providers }}
@@ -42,4 +36,4 @@ settings:
   required: true
   type: true
   hide-empty: true
-  indent: 2
+  indent: 1

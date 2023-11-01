@@ -19,7 +19,10 @@
         "assets": [
           "CHANGELOG.md",
           "README.md",
-          "examples/full/README.md"
+          "bootstrap/README.md",
+          "examples/full/README.md",
+          "test/create-application/README.md",
+          "test/create-resource/README.md"
         ]
       }
     ],

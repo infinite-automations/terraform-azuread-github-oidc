@@ -1,11 +1,3 @@
-# This YAML file defines a GitHub Actions workflow that validates, lints, tests, and releases a Terraform module for Azure AD GitHub OIDC.
-# The workflow is triggered on push and pull request events on the main branch.
-# It has three jobs: lint, test, and release.
-# The lint job lints the Terraform code using tflint.
-# The test job applies and destroys the Terraform code in the examples/full and test/create-resource directories.
-# The release job updates the README.md file with the Terraform documentation and runs after the test job is successful.
-# The workflow requires permissions to write contents and id-token.
-
 name: Test & Release
 
 on:
@@ -26,7 +18,9 @@ jobs:
       matrix:
         directory:
           - "."
+          - "bootstrap"
           - "examples/full"
+          - "test/create-application"
           - "test/create-resource"
     steps:
       - name: Checkout
@@ -59,7 +53,7 @@ jobs:
         id: terraform-docs
         uses: terraform-docs/gh-actions@v1.0.0
         with:
-          working-dir: .,examples/full
+          working-dir: .,bootstrap,examples/full,test/create-application,test/create-resource
           output-file: README.md
           output-method: inject
           git-push: ${{ github.event_name == 'pull_request' }}
@@ -68,13 +62,19 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         uses: actions/cache@v3
         with:
-          path: README.md
+          path: |
+            README.md
+            bootstrap/README.md
+            examples/full/README.md
+            test/create-application/README.md
+            test/create-resource/README.md
           key: ${{ runner.os }}-docs-${{ github.sha }}
 
   test:
     name: Test
     needs:
       - lint
+      - update-docs
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.ref }}-test
@@ -83,8 +83,8 @@ jobs:
       name: ${{ github.event_name == 'pull_request' && 'pr' || 'main' }}
     env:
       ARM_USE_OIDC: true
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -92,26 +92,26 @@ jobs:
         uses: gacts/github-slug@v1
         id: slug
       - name: Create Azure Application For OIDC
-        uses: "infinite-automations/terraform-all-in-one@v1.1.0"
+        uses: infinite-automations/terraform-all-in-one@v1.1.0
         id: apply-example
         with:
           init-args: >-
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
             -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
             -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
-            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.slug.outputs.branch-name-slug }}.tfstate'
-          directory: "examples/full"
+            -backend-config='key=terraform-azuread-github-oidc/test/create-application/${{ steps.slug.outputs.branch-name-slug }}.tfstate'
+          directory: "test/create-application"
           apply: true
           destroy: false
         env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
       - name: Get Client ID
         id: client-id
         run: |
           echo client-id="$(echo ${{ steps.apply-example.outputs.output-json }} | jq -r '.client_id.value')" >> "$GITHUB_OUTPUT"
       - name: Test Azure Application For OIDC
-        uses: "infinite-automations/terraform-all-in-one@v1.1.0"
+        uses: infinite-automations/terraform-all-in-one@v1.1.0
         with:
           init-args: >-
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
@@ -125,20 +125,18 @@ jobs:
           ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
           TF_VAR_resource_group_name: "rg-${{ steps.slug.outputs.branch-name-slug }}-test"
       - name: Destroy Azure Application For OIDC
-        uses: "infinite-automations/terraform-all-in-one@v1.1.0"
+        uses: infinite-automations/terraform-all-in-one@v1.1.0
         with:
-          init-args: >-
-            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
-            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
-            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
-            -backend-config='key=terraform-azuread-github-oidc/examples/full/${{ steps.slug.outputs.branch-name-slug }}.tfstate'
-          directory: "examples/full"
+          directory: "test/create-application"
+          setup: false
+          init: false
           format: false
           validate: false
+          plan: false
           apply: false
           destroy: true
         env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
 
   release:
@@ -146,6 +144,9 @@ jobs:
     needs:
       - update-docs
       - test
+    concurrency:
+      group: ${{ github.ref }}-release
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
