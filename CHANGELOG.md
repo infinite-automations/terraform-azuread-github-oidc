@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.0.1...1.1.0) (2023-11-01)
+
+
+### Features
+
+* **permissions:** add application api permissions ([#17](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/17)) ([99d950c](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/99d950ce08e5e64c9a5f7cd9fe3b2cc25174045e))
+
 ## [1.0.1](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.0.0...1.0.1) (2023-10-09)
 
 
