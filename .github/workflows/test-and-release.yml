@@ -92,7 +92,7 @@ jobs:
         uses: gacts/github-slug@v1
         id: slug
       - name: Create Azure Application For OIDC
-        uses: infinite-automations/terraform-all-in-one@v1.1.0
+        uses: infinite-automations/terraform-all-in-one@v1.2.0
         id: apply-example
         with:
           init-args: >-
@@ -111,7 +111,7 @@ jobs:
         run: |
           echo client-id="$(echo ${{ steps.apply-example.outputs.output-json }} | jq -r '.client_id.value')" >> "$GITHUB_OUTPUT"
       - name: Test Azure Application For OIDC
-        uses: infinite-automations/terraform-all-in-one@v1.1.0
+        uses: infinite-automations/terraform-all-in-one@v1.2.0
         with:
           init-args: >-
             -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
@@ -125,7 +125,7 @@ jobs:
           ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
           TF_VAR_resource_group_name: "rg-${{ steps.slug.outputs.branch-name-slug }}-test"
       - name: Destroy Azure Application For OIDC
-        uses: infinite-automations/terraform-all-in-one@v1.1.0
+        uses: infinite-automations/terraform-all-in-one@v1.2.0
         with:
           directory: "test/create-application"
           setup: false
