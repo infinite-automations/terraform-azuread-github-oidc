@@ -60,7 +60,7 @@ jobs:
           git-commit-message: "docs(terraform): update README.md"
       - name: Cache Docs
         if: ${{ github.event_name == 'push' }}
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             README.md
@@ -153,7 +153,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Restore Cached Docs
         if: ${{ github.event_name == 'push' }}
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: README.md
           key: ${{ runner.os }}-docs-${{ github.sha }}
