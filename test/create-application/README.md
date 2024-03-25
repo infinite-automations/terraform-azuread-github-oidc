@@ -25,5 +25,4 @@
 | <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | Azure subscription ID |
 | <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | Azure tenant ID |
 
-
 <!-- END_TF_DOCS -->
