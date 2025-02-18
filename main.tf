@@ -61,7 +61,7 @@ resource "azurerm_role_assignment" "this" {
   for_each             = var.azure_service_principal_subscription_roles
   scope                = format("/subscriptions/%s", local.subscription_id)
   role_definition_name = each.key
-  principal_id         = azuread_service_principal.this.id
+  principal_id         = azuread_service_principal.this.object_id
   // If new SP there  may be replciation lag this disables validation
   skip_service_principal_aad_check = true
   lifecycle {
