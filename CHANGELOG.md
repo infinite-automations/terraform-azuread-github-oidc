@@ -1,3 +1,15 @@
+## [1.1.1](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.0...1.1.1) (2025-02-18)
+
+### Bug Fixes
+
+* **terraform:** fix setting principal id for role assignements ([6d07ea2](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/6d07ea21a97f2dc1063634758a45b4bb4498b58b))
+
+### Dependencies
+
+* **deps:** bump actions/cache from 3 to 4 ([#19](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/19)) ([fa5067b](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/fa5067b38d82b921e956d31cbf63d4a3f5dcf144))
+* **deps:** bump infinite-automations/terraform-all-in-one ([#18](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/18)) ([b631ceb](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/b631ceb8e48f47af7b3e217a2607812b1b11d642))
+* **deps:** bump terraform-docs/gh-actions from 1.0.0 to 1.1.0 ([#20](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/20)) ([0a06548](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/0a065488dd8808f7a7f5b5e8cee04f508edbce54))
+
 # [1.1.0](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.0.1...1.1.0) (2023-11-01)
 
 
