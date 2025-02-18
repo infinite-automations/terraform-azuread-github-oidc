@@ -161,6 +161,8 @@ jobs:
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
         with:
+          extra_plugins: |
+            conventional-changelog-conventionalcommits
           dry_run: ${{ github.event_name == 'pull_request' }}
           ci: true
         env:
