@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.1...1.1.2) (2025-02-18)
+
+### Dependencies
+
+* **deps:** bump terraform-docs/gh-actions from 1.1.0 to 1.3.0 ([f96d815](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f96d815d2b0c26aac19fa773dc76e7353bd63e70))
+
 ## [1.1.1](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.0...1.1.1) (2025-02-18)
 
 ### Bug Fixes
