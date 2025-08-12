@@ -24,7 +24,7 @@ jobs:
           - "test/create-resource"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Lint Example
         uses: "infinite-automations/tflint-all-in-one@v1.0.1"
         with:
@@ -42,10 +42,10 @@ jobs:
       changed: ${{ steps.terraform-docs.outputs.num_changed > 0 }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         if: ${{ github.event_name == 'push' }}
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         if: ${{ github.event_name == 'pull_request' }}
         with:
           ref: ${{ github.event.pull_request.head.ref }}
@@ -87,7 +87,7 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Get Branch Slug
         uses: gacts/github-slug@v1
         id: slug
@@ -151,7 +151,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Restore Cached Docs
         if: ${{ github.event_name == 'push' }}
         uses: actions/cache@v4
