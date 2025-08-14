@@ -1,3 +1,9 @@
+## [1.1.4](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.3...1.1.4) (2025-08-14)
+
+### Dependencies
+
+* **deps:** bump actions/checkout from 4 to 5 ([c5a714c](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/c5a714c659428f2126354882fbe73d2e5e0fa2d7))
+
 ## [1.1.3](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.2...1.1.3) (2025-06-23)
 
 ### Dependencies
