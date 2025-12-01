@@ -29,6 +29,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        
       - name: Lint Example
         uses: "infinite-automations/tflint-all-in-one@3dbb8f4d2845ac35a025a6f15ef9d3b2da1a6535" # v1.0.1
         with:
@@ -48,11 +49,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
         if: ${{ github.event_name == 'push' }}
+        
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
         if: ${{ github.event_name == 'pull_request' }}
         with:
           ref: ${{ github.event.pull_request.head.ref }}
+          
       - name: Render terraform docs inside the README.md
         id: terraform-docs
         uses: terraform-docs/gh-actions@6de6da0cefcc6b4b7a5cbea4d79d97060733093c # v1.4.1
@@ -62,6 +65,7 @@ jobs:
           output-method: inject
           git-push: ${{ github.event_name == 'pull_request' }}
           git-commit-message: "docs(terraform): update README.md"
+          
       - name: Cache Docs
         if: ${{ github.event_name == 'push' }}
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
@@ -92,9 +96,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        
       - name: Get Branch Slug
         uses: gacts/github-slug@91cb78e803e07ccf88570afeddeabaad93c8f4cb # v1
         id: slug
+        
       - name: Create Azure Application For OIDC
         uses: infinite-automations/terraform-all-in-one@bf7348a1b77f91a1bc868e69c62bc840e1a362db # v1.2.0
         id: apply-example
@@ -110,11 +116,13 @@ jobs:
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
+          
       - name: Get Client ID
         id: client-id
         run: |
           client_id=$(echo ${{ steps.apply-example.outputs.output-json }} | jq -r '.client_id.value')
           echo client-id="${client_id}" >> "$GITHUB_OUTPUT"
+          
       - name: Test Azure Application For OIDC
         uses: infinite-automations/terraform-all-in-one@bf7348a1b77f91a1bc868e69c62bc840e1a362db # v1.2.0
         with:
@@ -129,6 +137,7 @@ jobs:
         env:
           ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
           TF_VAR_resource_group_name: "rg-${{ steps.slug.outputs.branch-name-slug }}-test"
+          
       - name: Destroy Azure Application For OIDC
         uses: infinite-automations/terraform-all-in-one@bf7348a1b77f91a1bc868e69c62bc840e1a362db # v1.2.0
         with:
@@ -156,12 +165,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        
       - name: Restore Cached Docs
         if: ${{ github.event_name == 'push' }}
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: README.md
           key: ${{ runner.os }}-docs-${{ github.sha }}
+
+      - name: Get GitHub App Token
+        id: get_token
+        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
+        with:
+          app-id: ${{ secrets.APP_ID_SEMREL }}
+          private-key: ${{ secrets.APP_KEY_SEMREL }}
+          
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
         with:
@@ -170,4 +188,4 @@ jobs:
           dry_run: ${{ github.event_name == 'pull_request' }}
           ci: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.get_token.outputs.token }}
