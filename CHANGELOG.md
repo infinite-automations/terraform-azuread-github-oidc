@@ -1,3 +1,9 @@
+## [1.1.6](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.5...1.1.6) (2025-12-12)
+
+### Dependencies
+
+* **deps:** update actions/cache action to v5 ([#31](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/31)) ([7ad109a](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/7ad109aedc13a2cda416e0624111d549492b94cc))
+
 ## [1.1.5](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.4...1.1.5) (2025-12-09)
 
 ### Dependencies
