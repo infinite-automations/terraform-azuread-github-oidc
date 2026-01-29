@@ -1,3 +1,9 @@
+## [1.1.9](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.8...1.1.9) (2026-01-29)
+
+### Dependencies
+
+* **deps:** update actions/cache digest to cdf6c1f ([#34](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/34)) ([3b0f1b6](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/3b0f1b63f155f54d5cf8e963e237184d34287c99))
+
 ## [1.1.8](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.7...1.1.8) (2026-01-21)
 
 ### Dependencies
