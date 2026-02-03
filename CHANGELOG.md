@@ -1,3 +1,9 @@
+## [1.1.10](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.9...1.1.10) (2026-02-03)
+
+### Dependencies
+
+* **deps:** update actions/checkout digest to de0fac2 ([#35](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/35)) ([287a570](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/287a57096433f513048067ee1069d0df967a769e))
+
 ## [1.1.9](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.8...1.1.9) (2026-01-29)
 
 ### Dependencies
