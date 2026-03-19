@@ -1,3 +1,9 @@
+## [1.1.14](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.13...1.1.14) (2026-03-19)
+
+### Dependencies
+
+* **deps:** update actions/cache digest to 6682284 ([#40](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/40)) ([d8f2236](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/d8f22360e2f1741879933f77a3a8ef02aa957efe))
+
 ## [1.1.13](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.12...1.1.13) (2026-03-14)
 
 ### Dependencies
