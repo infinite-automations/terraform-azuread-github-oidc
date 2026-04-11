@@ -98,7 +98,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         
       - name: Get Branch Slug
-        uses: gacts/github-slug@91cb78e803e07ccf88570afeddeabaad93c8f4cb # v1
+        uses: gacts/github-slug@83cd3d95888be8777f0d9c810c1266da1c5c3ef1 # v1
         id: slug
         
       - name: Create Azure Application For OIDC
