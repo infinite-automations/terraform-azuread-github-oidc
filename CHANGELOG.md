@@ -1,3 +1,9 @@
+## [1.1.16](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.15...1.1.16) (2026-04-11)
+
+### Dependencies
+
+* **deps:** update actions/create-github-app-token action to v3.1.1 ([#42](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/42)) ([7b54712](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/7b54712d75272a6fb47c5ed4e11cfdaf2959e0f1))
+
 ## [1.1.15](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.14...1.1.15) (2026-04-11)
 
 ### Dependencies
