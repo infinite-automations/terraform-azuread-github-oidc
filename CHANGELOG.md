@@ -1,3 +1,9 @@
+## [1.1.15](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.14...1.1.15) (2026-04-11)
+
+### Dependencies
+
+* **deps:** update gacts/github-slug digest to 83cd3d9 ([#41](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/41)) ([c74ef59](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/c74ef590eb7d5b61202a6de261c8767fe73fbf92))
+
 ## [1.1.14](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.13...1.1.14) (2026-03-19)
 
 ### Dependencies
