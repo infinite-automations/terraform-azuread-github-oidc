@@ -1,3 +1,9 @@
+## [1.1.18](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.17...1.1.18) (2026-04-19)
+
+### Dependencies
+
+* **deps:** update cycjimmy/semantic-release-action action to v6 ([#44](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/44)) ([516f1bc](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/516f1bc2e99e96601f40b245fb0f783600dc8e8a))
+
 ## [1.1.17](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.16...1.1.17) (2026-04-13)
 
 ### Dependencies
