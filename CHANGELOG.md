@@ -1,3 +1,9 @@
+## [1.1.19](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.18...1.1.19) (2026-04-25)
+
+### Dependencies
+
+* **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.32.0 ([#45](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/45)) ([9db45a6](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/9db45a6ce3302ce70b0d9e17d09f80420b7ffa64))
+
 ## [1.1.18](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.17...1.1.18) (2026-04-19)
 
 ### Dependencies
