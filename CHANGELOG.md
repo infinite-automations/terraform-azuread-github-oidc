@@ -2,149 +2,146 @@
 
 ### Dependencies
 
-* **deps:** update actions/create-github-app-token action to v3.2.0 ([#46](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/46)) ([f991728](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f991728acfa38f06dee0b8c28afbaf6452eb1b46))
+- **deps:** update actions/create-github-app-token action to v3.2.0 ([#46](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/46)) ([f991728](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f991728acfa38f06dee0b8c28afbaf6452eb1b46))
 
 ## [1.1.19](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.18...1.1.19) (2026-04-25)
 
 ### Dependencies
 
-* **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.32.0 ([#45](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/45)) ([9db45a6](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/9db45a6ce3302ce70b0d9e17d09f80420b7ffa64))
+- **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.32.0 ([#45](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/45)) ([9db45a6](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/9db45a6ce3302ce70b0d9e17d09f80420b7ffa64))
 
 ## [1.1.18](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.17...1.1.18) (2026-04-19)
 
 ### Dependencies
 
-* **deps:** update cycjimmy/semantic-release-action action to v6 ([#44](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/44)) ([516f1bc](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/516f1bc2e99e96601f40b245fb0f783600dc8e8a))
+- **deps:** update cycjimmy/semantic-release-action action to v6 ([#44](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/44)) ([516f1bc](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/516f1bc2e99e96601f40b245fb0f783600dc8e8a))
 
 ## [1.1.17](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.16...1.1.17) (2026-04-13)
 
 ### Dependencies
 
-* **deps:** update actions/cache digest to 27d5ce7 ([#43](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/43)) ([0040b44](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/0040b447fc522bd36704311597b46888207f44c4))
+- **deps:** update actions/cache digest to 27d5ce7 ([#43](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/43)) ([0040b44](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/0040b447fc522bd36704311597b46888207f44c4))
 
 ## [1.1.16](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.15...1.1.16) (2026-04-11)
 
 ### Dependencies
 
-* **deps:** update actions/create-github-app-token action to v3.1.1 ([#42](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/42)) ([7b54712](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/7b54712d75272a6fb47c5ed4e11cfdaf2959e0f1))
+- **deps:** update actions/create-github-app-token action to v3.1.1 ([#42](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/42)) ([7b54712](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/7b54712d75272a6fb47c5ed4e11cfdaf2959e0f1))
 
 ## [1.1.15](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.14...1.1.15) (2026-04-11)
 
 ### Dependencies
 
-* **deps:** update gacts/github-slug digest to 83cd3d9 ([#41](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/41)) ([c74ef59](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/c74ef590eb7d5b61202a6de261c8767fe73fbf92))
+- **deps:** update gacts/github-slug digest to 83cd3d9 ([#41](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/41)) ([c74ef59](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/c74ef590eb7d5b61202a6de261c8767fe73fbf92))
 
 ## [1.1.14](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.13...1.1.14) (2026-03-19)
 
 ### Dependencies
 
-* **deps:** update actions/cache digest to 6682284 ([#40](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/40)) ([d8f2236](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/d8f22360e2f1741879933f77a3a8ef02aa957efe))
+- **deps:** update actions/cache digest to 6682284 ([#40](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/40)) ([d8f2236](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/d8f22360e2f1741879933f77a3a8ef02aa957efe))
 
 ## [1.1.13](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.12...1.1.13) (2026-03-14)
 
 ### Dependencies
 
-* **deps:** update actions/create-github-app-token action to v3 ([#39](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/39)) ([964edac](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/964edace66216236c3c520e06f89948132eda23f))
+- **deps:** update actions/create-github-app-token action to v3 ([#39](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/39)) ([964edac](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/964edace66216236c3c520e06f89948132eda23f))
 
 ## [1.1.12](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.11...1.1.12) (2026-02-25)
 
 ### Dependencies
 
-* **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.31.1 ([#37](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/37)) ([7553ee9](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/7553ee9dc7d28e34f8bb70f0a7ed57a12edbc993))
+- **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.31.1 ([#37](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/37)) ([7553ee9](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/7553ee9dc7d28e34f8bb70f0a7ed57a12edbc993))
 
 ## [1.1.11](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.10...1.1.11) (2026-02-16)
 
 ### Dependencies
 
-* **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.31.0 ([#36](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/36)) ([29251dd](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/29251dd93e750ce1de73770df47d8d3a68f06da1))
+- **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.31.0 ([#36](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/36)) ([29251dd](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/29251dd93e750ce1de73770df47d8d3a68f06da1))
 
 ## [1.1.10](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.9...1.1.10) (2026-02-03)
 
 ### Dependencies
 
-* **deps:** update actions/checkout digest to de0fac2 ([#35](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/35)) ([287a570](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/287a57096433f513048067ee1069d0df967a769e))
+- **deps:** update actions/checkout digest to de0fac2 ([#35](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/35)) ([287a570](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/287a57096433f513048067ee1069d0df967a769e))
 
 ## [1.1.9](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.8...1.1.9) (2026-01-29)
 
 ### Dependencies
 
-* **deps:** update actions/cache digest to cdf6c1f ([#34](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/34)) ([3b0f1b6](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/3b0f1b63f155f54d5cf8e963e237184d34287c99))
+- **deps:** update actions/cache digest to cdf6c1f ([#34](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/34)) ([3b0f1b6](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/3b0f1b63f155f54d5cf8e963e237184d34287c99))
 
 ## [1.1.8](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.7...1.1.8) (2026-01-21)
 
 ### Dependencies
 
-* **deps:** update actions/cache digest to 8b402f5 ([#33](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/33)) ([f1fd941](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f1fd9414449ab1764cbde0931500bbaee5322817))
+- **deps:** update actions/cache digest to 8b402f5 ([#33](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/33)) ([f1fd941](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f1fd9414449ab1764cbde0931500bbaee5322817))
 
 ## [1.1.7](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.6...1.1.7) (2025-12-12)
 
 ### Dependencies
 
-* **deps:** update actions/cache digest to 9255dc7 ([#32](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/32)) ([780066f](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/780066fa0f044ca45ab52492386be8eb26bc0f0d))
+- **deps:** update actions/cache digest to 9255dc7 ([#32](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/32)) ([780066f](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/780066fa0f044ca45ab52492386be8eb26bc0f0d))
 
 ## [1.1.6](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.5...1.1.6) (2025-12-12)
 
 ### Dependencies
 
-* **deps:** update actions/cache action to v5 ([#31](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/31)) ([7ad109a](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/7ad109aedc13a2cda416e0624111d549492b94cc))
+- **deps:** update actions/cache action to v5 ([#31](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/31)) ([7ad109a](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/7ad109aedc13a2cda416e0624111d549492b94cc))
 
 ## [1.1.5](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.4...1.1.5) (2025-12-09)
 
 ### Dependencies
 
-* **deps:** pin dependencies ([#25](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/25)) ([0fac450](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/0fac450724739a65aa8df955559674cb5acf1d05))
-* **deps:** update actions/checkout action to v6 ([#27](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/27)) ([dc4b9ab](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/dc4b9ab4b721becf66a1607a4337acb47d4c0fff))
-* **deps:** update actions/checkout digest to 8e8c483 ([#29](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/29)) ([44600c3](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/44600c390a62c2d7da51ce6cd85762462271ee8d))
-* **deps:** update actions/create-github-app-token action to v2.2.1 ([#30](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/30)) ([74a297d](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/74a297d03bc2640f6c91f0a020b44d0251572a47))
-* **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.30.0 ([#26](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/26)) ([830be1c](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/830be1c20e335b37a06166b4adc71e4dbcec3203))
+- **deps:** pin dependencies ([#25](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/25)) ([0fac450](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/0fac450724739a65aa8df955559674cb5acf1d05))
+- **deps:** update actions/checkout action to v6 ([#27](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/27)) ([dc4b9ab](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/dc4b9ab4b721becf66a1607a4337acb47d4c0fff))
+- **deps:** update actions/checkout digest to 8e8c483 ([#29](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/29)) ([44600c3](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/44600c390a62c2d7da51ce6cd85762462271ee8d))
+- **deps:** update actions/create-github-app-token action to v2.2.1 ([#30](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/30)) ([74a297d](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/74a297d03bc2640f6c91f0a020b44d0251572a47))
+- **deps:** update tflint plugin terraform-linters/tflint-ruleset-azurerm to v0.30.0 ([#26](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/26)) ([830be1c](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/830be1c20e335b37a06166b4adc71e4dbcec3203))
 
 ## [1.1.4](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.3...1.1.4) (2025-08-14)
 
 ### Dependencies
 
-* **deps:** bump actions/checkout from 4 to 5 ([c5a714c](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/c5a714c659428f2126354882fbe73d2e5e0fa2d7))
+- **deps:** bump actions/checkout from 4 to 5 ([c5a714c](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/c5a714c659428f2126354882fbe73d2e5e0fa2d7))
 
 ## [1.1.3](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.2...1.1.3) (2025-06-23)
 
 ### Dependencies
 
-* **deps:** bump terraform-docs/gh-actions from 1.3.0 to 1.4.1 ([f69cdbf](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f69cdbf41dd887443ad7a74df4a3c96c3d60ed59))
+- **deps:** bump terraform-docs/gh-actions from 1.3.0 to 1.4.1 ([f69cdbf](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f69cdbf41dd887443ad7a74df4a3c96c3d60ed59))
 
 ## [1.1.2](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.1...1.1.2) (2025-02-18)
 
 ### Dependencies
 
-* **deps:** bump terraform-docs/gh-actions from 1.1.0 to 1.3.0 ([f96d815](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f96d815d2b0c26aac19fa773dc76e7353bd63e70))
+- **deps:** bump terraform-docs/gh-actions from 1.1.0 to 1.3.0 ([f96d815](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/f96d815d2b0c26aac19fa773dc76e7353bd63e70))
 
 ## [1.1.1](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.0...1.1.1) (2025-02-18)
 
-### Bug Fixes
+### Bugfixes
 
-* **terraform:** fix setting principal id for role assignements ([6d07ea2](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/6d07ea21a97f2dc1063634758a45b4bb4498b58b))
+- **terraform:** fix setting principal ID for role assignments ([6d07ea2](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/6d07ea21a97f2dc1063634758a45b4bb4498b58b))
 
 ### Dependencies
 
-* **deps:** bump actions/cache from 3 to 4 ([#19](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/19)) ([fa5067b](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/fa5067b38d82b921e956d31cbf63d4a3f5dcf144))
-* **deps:** bump infinite-automations/terraform-all-in-one ([#18](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/18)) ([b631ceb](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/b631ceb8e48f47af7b3e217a2607812b1b11d642))
-* **deps:** bump terraform-docs/gh-actions from 1.0.0 to 1.1.0 ([#20](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/20)) ([0a06548](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/0a065488dd8808f7a7f5b5e8cee04f508edbce54))
+- **deps:** bump actions/cache from 3 to 4 ([#19](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/19)) ([fa5067b](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/fa5067b38d82b921e956d31cbf63d4a3f5dcf144))
+- **deps:** bump infinite-automations/terraform-all-in-one ([#18](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/18)) ([b631ceb](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/b631ceb8e48f47af7b3e217a2607812b1b11d642))
+- **deps:** bump terraform-docs/gh-actions from 1.0.0 to 1.1.0 ([#20](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/20)) ([0a06548](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/0a065488dd8808f7a7f5b5e8cee04f508edbce54))
 
 # [1.1.0](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.0.1...1.1.0) (2023-11-01)
 
-
 ### Features
 
-* **permissions:** add application api permissions ([#17](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/17)) ([99d950c](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/99d950ce08e5e64c9a5f7cd9fe3b2cc25174045e))
+- **permissions:** add application API permissions ([#17](https://github.com/infinite-automations/terraform-azuread-github-oidc/issues/17)) ([99d950c](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/99d950ce08e5e64c9a5f7cd9fe3b2cc25174045e))
 
 ## [1.0.1](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.0.0...1.0.1) (2023-10-09)
 
+### Bugfixes
 
-### Bug Fixes
-
-* **environments:** fix creation of federated identities for environments ([26c2819](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/26c28199937e41bc2a45aeba51885c0e44a4976a))
+- **environments:** fix creation of federated identities for environments ([26c2819](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/26c28199937e41bc2a45aeba51885c0e44a4976a))
 
 # 1.0.0 (2023-10-04)
 
-
 ### Features
 
-* **init:** create initial release ([3df0480](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/3df0480ebfe37b0b6b5018380a53e56df866018f))
+- **init:** create initial release ([3df0480](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/3df0480ebfe37b0b6b5018380a53e56df866018f))

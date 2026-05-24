@@ -1,0 +1,134 @@
+---
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions: {}
+
+jobs:
+  # for security reasons we lint before any other code gets executed
+  lint:
+    name: Lint
+    uses: infinite-automations/workflows/.github/workflows/lint.yml@351e5260b800c2bf5e3c3437a5f8c7507bcc9399 # v1.0.0
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-lint
+      cancel-in-progress: true
+
+  test:
+    name: Test
+    needs:
+      - lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-test
+      cancel-in-progress: false
+    environment:
+      name: ${{ github.event_name == 'pull_request' && 'pr' || 'main' }}
+    env:
+      ARM_USE_OIDC: true
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Get Branch Slug
+        id: slug
+        env:
+          REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          SLUG=$(echo "$REF" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g' | sed -E 's/^-|-$//g')
+          echo "branch-name-slug=${SLUG}" >> "$GITHUB_OUTPUT"
+
+      - name: Create Azure Application For OIDC
+        uses: infinite-automations/terraform-all-in-one@bf7348a1b77f91a1bc868e69c62bc840e1a362db # v1.2.0
+        id: apply-example
+        with:
+          init-args: >-
+            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
+            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
+            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
+            -backend-config='key=terraform-azuread-github-oidc/test/create-application/${{ steps.slug.outputs.branch-name-slug }}.tfstate'
+          directory: "test/create-application"
+          apply: true
+          destroy: false
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
+
+      - name: Get Client ID
+        id: client-id
+        run: |
+          json="${STEPS_APPLY_EXAMPLE_OUTPUTS_OUTPUT_JSON}"
+          json="${json#\'}"
+          json="${json%\'}"
+          client_id=$(echo "${json}" | jq -r '.client_id.value')
+          echo "client-id=${client_id}" >> "$GITHUB_OUTPUT"
+        env:
+          STEPS_APPLY_EXAMPLE_OUTPUTS_OUTPUT_JSON: ${{ steps.apply-example.outputs.output-json }}
+
+      - name: Test Azure Application For OIDC
+        uses: infinite-automations/terraform-all-in-one@bf7348a1b77f91a1bc868e69c62bc840e1a362db # v1.2.0
+        with:
+          init-args: >-
+            -backend-config='resource_group_name=${{ vars.BACKEND_RESOURCE_GROUP }}'
+            -backend-config='storage_account_name=${{ vars.BACKEND_STORAGE_ACCOUNT }}'
+            -backend-config='container_name=${{ vars.BACKEND_CONTAINER_NAME }}'
+            -backend-config='key=terraform-azuread-github-oidc/test/create-resource/${{ steps.slug.outputs.branch-name-slug }}.tfstate'
+          directory: "test/create-resource"
+          apply: true
+          destroy: true
+        env:
+          ARM_CLIENT_ID: ${{ steps.client-id.outputs.client-id }}
+          TF_VAR_resource_group_name: "rg-${{ steps.slug.outputs.branch-name-slug }}-test"
+
+      - name: Destroy Azure Application For OIDC
+        uses: infinite-automations/terraform-all-in-one@bf7348a1b77f91a1bc868e69c62bc840e1a362db # v1.2.0
+        with:
+          directory: "test/create-application"
+          setup: false
+          init: false
+          format: false
+          validate: false
+          plan: false
+          apply: false
+          destroy: true
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          TF_VAR_azure_application_name: "terraform-azuread-github-oidc-${{ steps.slug.outputs.branch-name-slug }}-test"
+
+  release:
+    name: Release
+    needs:
+      - test
+    permissions:
+      contents: write
+      issues: write
+      packages: read
+      pull-requests: write
+      statuses: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-release
+      cancel-in-progress: false
+    uses: infinite-automations/workflows/.github/workflows/ci-terraform-module.yml@351e5260b800c2bf5e3c3437a5f8c7507bcc9399 # v1.0.0
+    with:
+      dry-run: ${{ github.event_name == 'pull_request' }}
+      skip-lint: true
+      semrel-extra-plugins: |
+        conventional-changelog-conventionalcommits
+    secrets:
+      APP_ID: ${{ secrets.APP_ID_SEMREL }}
+      APP_PRIVATE_KEY: ${{ secrets.APP_KEY_SEMREL }}

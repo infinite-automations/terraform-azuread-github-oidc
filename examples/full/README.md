@@ -8,7 +8,6 @@ By providing a sensitive variable `github_token` with a PAT for the given reposi
 
 <!-- BEGIN_TF_DOCS -->
 
-
 ## main.tf
 
 ```hcl
@@ -181,53 +180,53 @@ resource "github_dependabot_secret" "client-id" {
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=3.78.0 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | >=5.41.0 |
+| Name                                                                     | Version  |
+| ------------------------------------------------------------------------ | -------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | ~>1.0    |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement_azurerm)       | >=3.78.0 |
+| <a name="requirement_github"></a> [github](#requirement_github)          | >=5.41.0 |
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | >=5.41.0 |
+| Name                                                      | Version  |
+| --------------------------------------------------------- | -------- |
+| <a name="provider_github"></a> [github](#provider_github) | >=5.41.0 |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [github_actions_environment_secret.client-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_secret) | resource |
+| Name                                                                                                                                                              | Type     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [github_actions_environment_secret.client-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_secret)       | resource |
 | [github_actions_environment_secret.subscription-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_secret) | resource |
-| [github_actions_environment_secret.tenant-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_secret) | resource |
-| [github_actions_secret.client-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
-| [github_actions_secret.subscription-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
-| [github_actions_secret.tenant-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
-| [github_dependabot_secret.client-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret) | resource |
-| [github_dependabot_secret.subscription-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret) | resource |
-| [github_dependabot_secret.tenant-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret) | resource |
+| [github_actions_environment_secret.tenant-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_secret)       | resource |
+| [github_actions_secret.client-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret)                               | resource |
+| [github_actions_secret.subscription-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret)                         | resource |
+| [github_actions_secret.tenant-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret)                               | resource |
+| [github_dependabot_secret.client-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret)                         | resource |
+| [github_dependabot_secret.subscription-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret)                   | resource |
+| [github_dependabot_secret.tenant-id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret)                         | resource |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_azure_application_api_access"></a> [azure\_application\_api\_access](#input\_azure\_application\_api\_access) | List of API access permissions for the Azure AD application | <pre>list(object({<br/>    api_name          = string<br/>    role_permissions  = list(string)<br/>    scope_permissions = list(string)<br/>  }))</pre> | <pre>[<br/>  {<br/>    "api_name": "MicrosoftGraph",<br/>    "role_permissions": [<br/>      "Chat.Create",<br/>      "Chat.Read.All",<br/>      "Chat.ReadBasic.All"<br/>    ],<br/>    "scope_permissions": [<br/>      "Chat.Create",<br/>      "Chat.Read"<br/>    ]<br/>  }<br/>]</pre> | no |
-| <a name="input_azure_application_name"></a> [azure\_application\_name](#input\_azure\_application\_name) | Name of the Azure AD application | `string` | `"github-oidc-test"` | no |
-| <a name="input_azure_service_principal_subscription_roles"></a> [azure\_service\_principal\_subscription\_roles](#input\_azure\_service\_principal\_subscription\_roles) | List of subscription roles to assign to the service principal | `set(string)` | <pre>[<br/>  "Contributor"<br/>]</pre> | no |
-| <a name="input_github_repository_branches"></a> [github\_repository\_branches](#input\_github\_repository\_branches) | List of branches to create federated credentials for | `set(string)` | <pre>[<br/>  "main"<br/>]</pre> | no |
-| <a name="input_github_repository_environments"></a> [github\_repository\_environments](#input\_github\_repository\_environments) | List of environments to create federated credentials for | `set(string)` | <pre>[<br/>  "test",<br/>  "prod"<br/>]</pre> | no |
-| <a name="input_github_repository_name"></a> [github\_repository\_name](#input\_github\_repository\_name) | Name of the GitHub repository | `string` | `"terraform-azuread-github-oidc"` | no |
-| <a name="input_github_repository_owner"></a> [github\_repository\_owner](#input\_github\_repository\_owner) | Owner of the GitHub repository | `string` | `"infinite-automations"` | no |
-| <a name="input_github_repository_pull_request"></a> [github\_repository\_pull\_request](#input\_github\_repository\_pull\_request) | Create federated credentials for pull requests | `bool` | `true` | no |
-| <a name="input_github_repository_tags"></a> [github\_repository\_tags](#input\_github\_repository\_tags) | List of tags to create federated credentials for | `set(string)` | <pre>[<br/>  "1.0.0",<br/>  "1.1.0"<br/>]</pre> | no |
-| <a name="input_github_token"></a> [github\_token](#input\_github\_token) | GitHub token for writing the secret | `string` | `null` | no |
+| Name                                                                                                                                                            | Description                                                   | Type                                                                                                                                | Default                                                                                                                                                                                                                                            | Required |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| <a name="input_azure_application_api_access"></a> [azure_application_api_access](#input_azure_application_api_access)                                           | List of API access permissions for the Azure AD application   | <pre>list(object({<br/> api_name = string<br/> role_permissions = list(string)<br/> scope_permissions = list(string)<br/> }))</pre> | <pre>[<br/> {<br/> "api_name": "MicrosoftGraph",<br/> "role_permissions": [<br/> "Chat.Create",<br/> "Chat.Read.All",<br/> "Chat.ReadBasic.All"<br/> ],<br/> "scope_permissions": [<br/> "Chat.Create",<br/> "Chat.Read"<br/> ]<br/> }<br/>]</pre> |    no    |
+| <a name="input_azure_application_name"></a> [azure_application_name](#input_azure_application_name)                                                             | Name of the Azure AD application                              | `string`                                                                                                                            | `"github-oidc-test"`                                                                                                                                                                                                                               |    no    |
+| <a name="input_azure_service_principal_subscription_roles"></a> [azure_service_principal_subscription_roles](#input_azure_service_principal_subscription_roles) | List of subscription roles to assign to the service principal | `set(string)`                                                                                                                       | <pre>[<br/> "Contributor"<br/>]</pre>                                                                                                                                                                                                              |    no    |
+| <a name="input_github_repository_branches"></a> [github_repository_branches](#input_github_repository_branches)                                                 | List of branches to create federated credentials for          | `set(string)`                                                                                                                       | <pre>[<br/> "main"<br/>]</pre>                                                                                                                                                                                                                     |    no    |
+| <a name="input_github_repository_environments"></a> [github_repository_environments](#input_github_repository_environments)                                     | List of environments to create federated credentials for      | `set(string)`                                                                                                                       | <pre>[<br/> "test",<br/> "prod"<br/>]</pre>                                                                                                                                                                                                        |    no    |
+| <a name="input_github_repository_name"></a> [github_repository_name](#input_github_repository_name)                                                             | Name of the GitHub repository                                 | `string`                                                                                                                            | `"terraform-azuread-github-oidc"`                                                                                                                                                                                                                  |    no    |
+| <a name="input_github_repository_owner"></a> [github_repository_owner](#input_github_repository_owner)                                                          | Owner of the GitHub repository                                | `string`                                                                                                                            | `"infinite-automations"`                                                                                                                                                                                                                           |    no    |
+| <a name="input_github_repository_pull_request"></a> [github_repository_pull_request](#input_github_repository_pull_request)                                     | Create federated credentials for pull requests                | `bool`                                                                                                                              | `true`                                                                                                                                                                                                                                             |    no    |
+| <a name="input_github_repository_tags"></a> [github_repository_tags](#input_github_repository_tags)                                                             | List of tags to create federated credentials for              | `set(string)`                                                                                                                       | <pre>[<br/> "1.0.0",<br/> "1.1.0"<br/>]</pre>                                                                                                                                                                                                      |    no    |
+| <a name="input_github_token"></a> [github_token](#input_github_token)                                                                                           | GitHub token for writing the secret                           | `string`                                                                                                                            | `null`                                                                                                                                                                                                                                             |    no    |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_client_id"></a> [client\_id](#output\_client\_id) | AzureAD client ID |
-| <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | Azure subscription ID |
-| <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | Azure tenant ID |
+| Name                                                                             | Description           |
+| -------------------------------------------------------------------------------- | --------------------- |
+| <a name="output_client_id"></a> [client_id](#output_client_id)                   | AzureAD client ID     |
+| <a name="output_subscription_id"></a> [subscription_id](#output_subscription_id) | Azure subscription ID |
+| <a name="output_tenant_id"></a> [tenant_id](#output_tenant_id)                   | Azure tenant ID       |
 
 <!-- END_TF_DOCS -->

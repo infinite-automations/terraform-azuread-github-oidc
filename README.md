@@ -1,11 +1,10 @@
 # terraform-azuread-github-oidc
 
-![Semantic Release](https://github.com/infinite-automations/terraform-azuread-github-oidc/actions/workflows/test-and-release.yml/badge.svg)
+![Release](https://github.com/infinite-automations/terraform-azuread-github-oidc/actions/workflows/release.yml/badge.svg)
 
 Terraform module to setup GitHub OIDC in Microsoft Azure, creating an Azure AD application, service principal, and federated identities.
 
 <!-- BEGIN_TF_DOCS -->
-
 
 ## Module Usage
 
@@ -216,60 +215,61 @@ jobs:
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | >=2.45.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=3.78.0 |
+| Name                                                                     | Version  |
+| ------------------------------------------------------------------------ | -------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | ~>1.0    |
+| <a name="requirement_azuread"></a> [azuread](#requirement_azuread)       | >=2.45.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement_azurerm)       | >=3.78.0 |
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | >=2.45.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >=3.78.0 |
+| Name                                                         | Version  |
+| ------------------------------------------------------------ | -------- |
+| <a name="provider_azuread"></a> [azuread](#provider_azuread) | >=2.45.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider_azurerm) | >=3.78.0 |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [azuread_application.this](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application) | resource |
-| [azuread_application_api_access.this](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_api_access) | resource |
-| [azuread_application_federated_identity_credential.branch](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_federated_identity_credential) | resource |
-| [azuread_application_federated_identity_credential.environment](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_federated_identity_credential) | resource |
+| Name                                                                                                                                                                                        | Type     |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [azuread_application.this](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application)                                                                     | resource |
+| [azuread_application_api_access.this](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_api_access)                                               | resource |
+| [azuread_application_federated_identity_credential.branch](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_federated_identity_credential)       | resource |
+| [azuread_application_federated_identity_credential.environment](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_federated_identity_credential)  | resource |
 | [azuread_application_federated_identity_credential.pull-request](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_federated_identity_credential) | resource |
-| [azuread_application_federated_identity_credential.tag](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_federated_identity_credential) | resource |
-| [azuread_service_principal.this](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
-| [azurerm_role_assignment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azuread_application_federated_identity_credential.tag](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_federated_identity_credential)          | resource |
+| [azuread_service_principal.this](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal)                                                         | resource |
+| [azurerm_role_assignment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment)                                                             | resource |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_azure_application_name"></a> [azure\_application\_name](#input\_azure\_application\_name) | Name of the Azure AD application | `string` | n/a | yes |
-| <a name="input_github_repository_name"></a> [github\_repository\_name](#input\_github\_repository\_name) | Name of the GitHub repository | `string` | n/a | yes |
-| <a name="input_github_repository_owner"></a> [github\_repository\_owner](#input\_github\_repository\_owner) | Owner of the GitHub repository | `string` | n/a | yes |
-| <a name="input_azure_application_api_access"></a> [azure\_application\_api\_access](#input\_azure\_application\_api\_access) | List of API access permissions for the Azure AD application | <pre>list(object({<br/>    api_name          = string<br/>    role_permissions  = list(string)<br/>    scope_permissions = list(string)<br/>  }))</pre> | `[]` | no |
-| <a name="input_azure_owner_object_id"></a> [azure\_owner\_object\_id](#input\_azure\_owner\_object\_id) | Azure AD application owner object ID | `string` | `null` | no |
-| <a name="input_azure_service_principal_subscription_roles"></a> [azure\_service\_principal\_subscription\_roles](#input\_azure\_service\_principal\_subscription\_roles) | Set of subscription roles to assign to the service principal | `set(string)` | `[]` | no |
-| <a name="input_azure_subscription_id"></a> [azure\_subscription\_id](#input\_azure\_subscription\_id) | Azure subscription ID | `string` | `null` | no |
-| <a name="input_github_repository_branches"></a> [github\_repository\_branches](#input\_github\_repository\_branches) | List of branches to create federated credentials for | `set(string)` | `[]` | no |
-| <a name="input_github_repository_environments"></a> [github\_repository\_environments](#input\_github\_repository\_environments) | List of environments to create federated credentials for | `set(string)` | `[]` | no |
-| <a name="input_github_repository_pull_request"></a> [github\_repository\_pull\_request](#input\_github\_repository\_pull\_request) | Create federated credentials for pull requests | `bool` | `false` | no |
-| <a name="input_github_repository_tags"></a> [github\_repository\_tags](#input\_github\_repository\_tags) | List of tags to create federated credentials for | `set(string)` | `[]` | no |
+| Name                                                                                                                                                            | Description                                                  | Type                                                                                                                                | Default | Required |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------- | :------: |
+| <a name="input_azure_application_name"></a> [azure_application_name](#input_azure_application_name)                                                             | Name of the Azure AD application                             | `string`                                                                                                                            | n/a     |   yes    |
+| <a name="input_github_repository_name"></a> [github_repository_name](#input_github_repository_name)                                                             | Name of the GitHub repository                                | `string`                                                                                                                            | n/a     |   yes    |
+| <a name="input_github_repository_owner"></a> [github_repository_owner](#input_github_repository_owner)                                                          | Owner of the GitHub repository                               | `string`                                                                                                                            | n/a     |   yes    |
+| <a name="input_azure_application_api_access"></a> [azure_application_api_access](#input_azure_application_api_access)                                           | List of API access permissions for the Azure AD application  | <pre>list(object({<br/> api_name = string<br/> role_permissions = list(string)<br/> scope_permissions = list(string)<br/> }))</pre> | `[]`    |    no    |
+| <a name="input_azure_owner_object_id"></a> [azure_owner_object_id](#input_azure_owner_object_id)                                                                | Azure AD application owner object ID                         | `string`                                                                                                                            | `null`  |    no    |
+| <a name="input_azure_service_principal_subscription_roles"></a> [azure_service_principal_subscription_roles](#input_azure_service_principal_subscription_roles) | Set of subscription roles to assign to the service principal | `set(string)`                                                                                                                       | `[]`    |    no    |
+| <a name="input_azure_subscription_id"></a> [azure_subscription_id](#input_azure_subscription_id)                                                                | Azure subscription ID                                        | `string`                                                                                                                            | `null`  |    no    |
+| <a name="input_github_repository_branches"></a> [github_repository_branches](#input_github_repository_branches)                                                 | List of branches to create federated credentials for         | `set(string)`                                                                                                                       | `[]`    |    no    |
+| <a name="input_github_repository_environments"></a> [github_repository_environments](#input_github_repository_environments)                                     | List of environments to create federated credentials for     | `set(string)`                                                                                                                       | `[]`    |    no    |
+| <a name="input_github_repository_pull_request"></a> [github_repository_pull_request](#input_github_repository_pull_request)                                     | Create federated credentials for pull requests               | `bool`                                                                                                                              | `false` |    no    |
+| <a name="input_github_repository_tags"></a> [github_repository_tags](#input_github_repository_tags)                                                             | List of tags to create federated credentials for             | `set(string)`                                                                                                                       | `[]`    |    no    |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_azuread_application"></a> [azuread\_application](#output\_azuread\_application) | AzureAD application created |
-| <a name="output_azuread_application_owner"></a> [azuread\_application\_owner](#output\_azuread\_application\_owner) | AzureAD application owner |
-| <a name="output_azuread_service_principal"></a> [azuread\_service\_principal](#output\_azuread\_service\_principal) | AzureAD principal created |
-| <a name="output_client_id"></a> [client\_id](#output\_client\_id) | AzureAD client ID |
-| <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | Azure subscription ID |
-| <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | Azure tenant ID |
+| Name                                                                                                           | Description                 |
+| -------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| <a name="output_azuread_application"></a> [azuread_application](#output_azuread_application)                   | AzureAD application created |
+| <a name="output_azuread_application_owner"></a> [azuread_application_owner](#output_azuread_application_owner) | AzureAD application owner   |
+| <a name="output_azuread_service_principal"></a> [azuread_service_principal](#output_azuread_service_principal) | AzureAD principal created   |
+| <a name="output_client_id"></a> [client_id](#output_client_id)                                                 | AzureAD client ID           |
+| <a name="output_subscription_id"></a> [subscription_id](#output_subscription_id)                               | Azure subscription ID       |
+| <a name="output_tenant_id"></a> [tenant_id](#output_tenant_id)                                                 | Azure tenant ID             |
 
 <!-- END_TF_DOCS -->
 
 ## Changelog
+
 See the [Changelog](./CHANGELOG.md) file for details

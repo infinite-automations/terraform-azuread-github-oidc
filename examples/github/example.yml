@@ -1,3 +1,4 @@
+---
 name: Deploy using OIDC
 
 # choose any triggers
@@ -8,10 +9,8 @@ on:
     branches: ["main"]
 
 # permissions required
-# oidc requires to cretate id-tokens
-permissions:
-  contents: read
-  id-token: write
+# oidc requires to create id-tokens
+permissions: {}
 
 # environment variables to set
 # can also be set on job level
@@ -24,6 +23,10 @@ env:
 # sample
 jobs:
   deploy:
+    name: Deploy
+    permissions:
+      contents: read
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Deploy

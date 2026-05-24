@@ -1,3 +1,4 @@
+---
 # .terraform-docs.yml
 formatter: "markdown table"
 

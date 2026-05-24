@@ -21,11 +21,9 @@ terraform apply -auto-approve
 
 3. As admin: Got to the [Entra ID portal](https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade/quickStartType~/null/sourceType/Microsoft_AAD_IAM) and grant consent to the requested application API permissions for the new application
 
-
 ## Terraform Docs
 
 <!-- BEGIN_TF_DOCS -->
-
 
 ### main.tf
 
@@ -59,20 +57,14 @@ module "github-oidc" {
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
-
-
-
-
+| Name                                                                     | Version |
+| ------------------------------------------------------------------------ | ------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | ~>1.0   |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_github_token"></a> [github\_token](#input\_github\_token) | GitHub token for writing the secret | `string` | `null` | no |
-
-
+| Name                                                                  | Description                         | Type     | Default | Required |
+| --------------------------------------------------------------------- | ----------------------------------- | -------- | ------- | :------: |
+| <a name="input_github_token"></a> [github_token](#input_github_token) | GitHub token for writing the secret | `string` | `null`  |    no    |
 
 <!-- END_TF_DOCS -->
