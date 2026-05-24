@@ -13,7 +13,7 @@ jobs:
   # for security reasons we lint before any other code gets executed
   lint:
     name: Lint
-    uses: infinite-automations/workflows/.github/workflows/lint.yml@91c112156921514a4e5fd1f636847fbc1ea128b2 # v1.0.0
+    uses: infinite-automations/workflows/.github/workflows/lint.yml@37829a2ca309e06b5f11b38c60237d2ac7988698 # v1.0.0
     permissions:
       contents: read
       packages: read
@@ -118,7 +118,7 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}-release
       cancel-in-progress: false
-    uses: infinite-automations/workflows/.github/workflows/ci-terraform-module.yml@91c112156921514a4e5fd1f636847fbc1ea128b2 # v1.0.0
+    uses: infinite-automations/workflows/.github/workflows/ci-terraform-module.yml@37829a2ca309e06b5f11b38c60237d2ac7988698 # v1.0.0
     with:
       dry-run: ${{ github.event_name == 'pull_request' }}
       skip-lint: true
