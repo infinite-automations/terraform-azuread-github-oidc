@@ -1,3 +1,9 @@
+## [1.1.21](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.20...1.1.21) (2026-05-24)
+
+### Dependencies
+
+* **deps:** update infinite-automations/workflows action to v1.0.1 ([1994570](https://github.com/infinite-automations/terraform-azuread-github-oidc/commit/1994570a9918833d11d9f2bdd5487758f66a9ce7))
+
 ## [1.1.20](https://github.com/infinite-automations/terraform-azuread-github-oidc/compare/1.1.19...1.1.20) (2026-05-13)
 
 ### Dependencies
