@@ -127,8 +127,6 @@ jobs:
     with:
       dry-run: ${{ github.event_name == 'pull_request' }}
       skip-lint: true
-      semrel-extra-plugins: |
-        conventional-changelog-conventionalcommits
     secrets:
       APP_ID: ${{ secrets.APP_ID_SEMREL }}
       APP_PRIVATE_KEY: ${{ secrets.APP_KEY_SEMREL }}
